@@ -158,6 +158,11 @@ def prepare_page(page: Path) -> dict[str, str]:
         if any(key in comment for key in ["glaonline", "LoadRegistrationForm", "nopaperforms", "api-registration"]):
             comment.extract()
 
+    for credit in list(soup.select(".design_dev")):
+        credit.decompose()
+    for author in soup.find_all("meta", attrs={"name": "author"}):
+        author.decompose()
+
     for item in list(soup.select(".accordion-item")):
         heading = item.select_one(".accordion-header")
         if heading and heading.get_text(strip=True) == "What is the LMS Portal link?":

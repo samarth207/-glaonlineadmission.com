@@ -11,6 +11,7 @@ Prepared for **https://glaonlineadmission.com/** using PHP 8.2+ and MySQL.
   Source URLs remain in non-public download tools and provenance records so
   the mirror can still be refreshed.
 - Website contact numbers and click-to-call links use **+91 93113 81814**.
+- Removed the original web agency's footer credit and author metadata.
 - Removed **Student Login navigation only**, as requested. Other student resources,
   exam/payment links, testimonials and course content remain.
 - Replaced the original registration widgets and form handlers with local
