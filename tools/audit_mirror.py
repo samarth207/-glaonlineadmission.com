@@ -44,12 +44,25 @@ def audit():
             failures.append(f"Missing jQuery: {page.relative_to(ROOT)}")
         if not soup.find("link", href=re.compile(r"style\.css$")):
             failures.append(f"Missing core stylesheet: {page.relative_to(ROOT)}")
-        if re.search(r"https?://(?:www\.)?glaonline\.com(?:[/\"'#?]|$)|apply\.glaonline\.com|nopaperforms|Student Login", text):
+        if re.search(r"glaonline\.com|nopaperforms|Student Login", text, re.IGNORECASE):
             failures.append(f"Legacy hosting/login/form reference: {page.relative_to(ROOT)}")
         if soup.find("a", href=re.compile("blog-content-excluded")):
             failures.append(f"Excluded blog link remains: {page.relative_to(ROOT)}")
         if len(soup.select("#admission-enquiry")) != 1:
             failures.append(f"Incorrect enquiry dialog count: {page.relative_to(ROOT)}")
+        if page == ROOT / "index.html":
+            for selector in [
+                ".wall_distinction", ".video_section", ".gla_events_section",
+                ".corporate-learner", ".gla_learners_section", ".meet_master",
+                ".our_presence", ".gla-social-sec", ".faq_sec", "footer",
+            ]:
+                section = soup.select_one(selector)
+                if section is None or section.parent.name != "main":
+                    failures.append(f"Homepage section missing or incorrectly nested: {selector}")
+            hero = soup.select_one("#banner-enquiry")
+            for name in ["name", "email", "phone", "alternate_phone", "state", "city", "program", "consent"]:
+                if hero is None or hero.select_one(f'[name="{name}"]') is None:
+                    failures.append(f"Homepage hero field missing: {name}")
         for form in soup.select("[data-local-form]"):
             if form.get("action") != "/api/form.php" or not form.select_one('[name="consent"]'):
                 failures.append(f"Unwired local form: {page.relative_to(ROOT)}")
@@ -89,7 +102,10 @@ def audit():
                 start = stream.read(100).lstrip().lower()
             if start.startswith((b"<!doctype html", b"<html")):
                 failures.append(f"HTML received instead of asset: {file.relative_to(ROOT)}")
-    files = [p for p in ROOT.rglob("*") if p.is_file() and "tools" not in p.parts and "__pycache__" not in p.parts]
+    files = [
+        p for p in ROOT.rglob("*")
+        if p.is_file() and not {"tools", "__pycache__", ".git"} & set(p.parts)
+    ]
     return {
         "pages": len(pages), "files": len(files),
         "bytes": sum(p.stat().st_size for p in files),

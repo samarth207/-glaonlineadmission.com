@@ -13,6 +13,42 @@
         if (pageProgram) form.elements.program.value = pageProgram[1];
     });
 
+    document.querySelectorAll(".local-hero-form").forEach(form => {
+        let districtsPromise;
+        const state = form.elements.state;
+        const city = form.elements.city;
+        state.addEventListener("change", async () => {
+            const selected = state.value;
+            city.replaceChildren(new Option("Select District", ""));
+            city.disabled = true;
+            if (!selected) return;
+            const status = form.querySelector(".local-form-status");
+            status.textContent = "Loading districts...";
+            status.dataset.state = "pending";
+            try {
+                districtsPromise ||= (async () => {
+                    const response = await fetch("/siteassets/districts.json");
+                    if (!response.ok) throw new Error("District options are unavailable.");
+                    return response.json();
+                })();
+                const states = await districtsPromise;
+                if (state.value !== selected) return;
+                const options = states.find(item => item.name === selected)?.districts;
+                if (!Array.isArray(options) || options.length === 0) {
+                    throw new Error("No district options are available for this state.");
+                }
+                options.forEach(name => city.add(new Option(name, name)));
+                city.disabled = false;
+                status.textContent = "";
+            } catch (error) {
+                districtsPromise = undefined;
+                console.error("District options failed:", error);
+                status.dataset.state = "error";
+                status.textContent = "Districts could not be loaded. Please select another state or use Apply Now.";
+            }
+        });
+    });
+
     document.querySelectorAll("[data-open-enquiry]").forEach(link => {
         link.addEventListener("click", event => {
             if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
@@ -110,6 +146,10 @@
                 form.reset();
                 submissionId = undefined;
                 if (pageProgram && form.elements.program) form.elements.program.value = pageProgram[1];
+                if (form.classList.contains("local-hero-form")) {
+                    form.elements.city.replaceChildren(new Option("Select District", ""));
+                    form.elements.city.disabled = true;
+                }
             } catch (error) {
                 console.error("Enquiry submission failed:", error);
                 status.dataset.state = "error";

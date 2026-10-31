@@ -91,16 +91,24 @@ def local_reference(value: str, page: Path) -> str:
 
 
 def make_form(form_id: str, specialization: str) -> Tag:
-    soup = BeautifulSoup((ROOT / "tools" / "enquiry-form.html").read_text(encoding="utf-8"), "html.parser")
+    template = "hero-form.html" if form_id == "banner-enquiry" else "enquiry-form.html"
+    soup = BeautifulSoup((ROOT / "tools" / template).read_text(encoding="utf-8"), "html.parser")
     form = soup.form
     form["id"] = form_id
     form.select_one('[name="specialization"]')["value"] = specialization
+    if form_id == "banner-enquiry":
+        states = json.loads((ROOT / "siteassets" / "districts.json").read_text(encoding="utf-8"))
+        select = form.select_one('[name="state"]')
+        for state in states:
+            option = soup.new_tag("option", value=state["name"])
+            option.string = state["name"]
+            select.append(option)
     if form_id == "dialog-enquiry":
         consent = form.select_one(".local-consent")
         for element in parse_fragment(
             '<label>State (optional)<input type="text" name="state" maxlength="100"></label>'
             '<label>City (optional)<input type="text" name="city" maxlength="100"></label>'
-            '<label>Message (optional)<textarea name="message" maxlength="3000" rows="3"></textarea></label>'
+            '<label class="local-field-wide">Message (optional)<textarea name="message" maxlength="3000" rows="3" placeholder="How can we help you?"></textarea></label>'
         ):
             consent.insert_before(element)
     return form
@@ -110,7 +118,36 @@ def prepare_page(page: Path) -> dict[str, str]:
     source = page.read_text(encoding="utf-8")
     source = re.sub(r"https?://(?:www\.)?glaonline\.com(?=[/'\"#?\s<]|$)", TARGET, source)
     source = source.replace("//glaonline.com", "//glaonlineadmission.com")
+    source = re.sub(
+        r"(?<!\d)(?:\+91[- ]?)?(?:9568536853|7617595602|7617595603|8439954905)(?!\d)",
+        "+91 93113 81814",
+        source,
+    )
     soup = BeautifulSoup(source, "lxml")
+    for link in soup.select('a[href^="tel:"]'):
+        link["href"] = "tel:+919311381814"
+        if link.get("aria-label") and re.search(r"\d{5}", link["aria-label"]):
+            link["aria-label"] = "Call +91 93113 81814"
+    for item in soup.find_all("li"):
+        calls = item.select('a[href^="tel:"]')
+        if len(calls) > 1:
+            for duplicate in calls[1:]:
+                duplicate.decompose()
+            for text in calls[0].find_all(string=True):
+                if "+91 93113 81814" in text:
+                    text.replace_with(text.rstrip(", "))
+    if page == ROOT / "index.html":
+        faculty = soup.select_one("section.faculty_sec")
+        wrapper = faculty.select_one(".full_touch") if faculty else None
+        if wrapper:
+            # Repair source markup as the browser does: only the faculty container is hidden.
+            anchor = faculty
+            for child in list(wrapper.children):
+                if isinstance(child, Tag) and child.name == "div" and "container" in child.get("class", []):
+                    continue
+                child.extract()
+                anchor.insert_after(child)
+                anchor = child
     brochure = re.search(r"""var fileURL\s*=\s*["']([^"']+\.pdf)["']""", source)
     previous_brochure = soup.select_one("[data-brochure]")
     brochure_path = (
@@ -120,6 +157,34 @@ def prepare_page(page: Path) -> dict[str, str]:
     for comment in soup.find_all(string=lambda node: isinstance(node, Comment)):
         if any(key in comment for key in ["glaonline", "LoadRegistrationForm", "nopaperforms", "api-registration"]):
             comment.extract()
+
+    for item in list(soup.select(".accordion-item")):
+        heading = item.select_one(".accordion-header")
+        if heading and heading.get_text(strip=True) == "What is the LMS Portal link?":
+            item.decompose()
+        elif heading and heading.get_text(strip=True) == "How can I apply for an online course?":
+            answer = item.select_one(".accordion-body")
+            answer.clear()
+            for child in parse_fragment(
+                '<p>Visit <a href="/index.html">glaonlineadmission.com</a> and select '
+                '<a href="/contact-us/index.html#contact_form" data-open-enquiry="">Apply Now</a>. '
+                'Choose your program and submit your contact details. Our admissions team will '
+                'contact you with guidance on eligibility, required documents and the next steps. '
+                'This website collects admissions enquiries; it does not provide an application '
+                'login or collect registration fees.</p>'
+            ):
+                answer.append(child)
+
+    for text in list(soup.find_all(string=True)):
+        if not isinstance(text, Comment) and text.parent.name not in {"script", "style"}:
+            updated = re.sub(
+                r"(?<![\w.-])(?:www\.)?glaonline\.com(?![\w.-])",
+                "glaonlineadmission.com",
+                str(text),
+                flags=re.IGNORECASE,
+            )
+            if updated != str(text):
+                text.replace_with(updated)
 
     for anchor in list(soup.find_all("a")):
         if anchor.get_text(" ", strip=True).lower() == "student login" or anchor.get("href") == "#blog-content-excluded":
@@ -328,6 +393,10 @@ def prepare_page(page: Path) -> dict[str, str]:
             TARGET + "/assets/images/logo.png",
             TARGET + "/siteassets/images/green-logo.png",
         )
+        data = json.loads(str(structured.string))
+        if isinstance(data, dict) and isinstance(data.get("contactPoint"), dict):
+            data["contactPoint"]["telephone"] = "+919311381814"
+            structured.string = json.dumps(data, indent=2, ensure_ascii=False)
     for duplicate in list(soup.select('link[href$="local-site.css"], script[src$="local-site.js"]')):
         duplicate.decompose()
     soup.head.append(soup.new_tag("link", rel="stylesheet", href="/siteassets/css/local-site.css"))

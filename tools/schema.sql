@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS form_submissions (
     name VARCHAR(100) NOT NULL,
     email VARCHAR(254) NOT NULL,
     phone VARCHAR(20) NOT NULL,
+    alternate_phone VARCHAR(20) NOT NULL DEFAULT '',
     program VARCHAR(20) NOT NULL DEFAULT '',
     specialization VARCHAR(160) NOT NULL DEFAULT '',
     country VARCHAR(100) NOT NULL DEFAULT '',

@@ -74,7 +74,7 @@ $limits = [
     'submission_id' => 36, 'form_type' => 10, 'name' => 100, 'email' => 254,
     'phone' => 20, 'program' => 20, 'specialization' => 160, 'country' => 100,
     'state' => 100, 'city' => 100, 'company' => 150, 'message' => 3000,
-    'source_path' => 500, 'website' => 200,
+    'source_path' => 500, 'website' => 200, 'alternate_phone' => 20, 'form_layout' => 10,
 ];
 $fields = [];
 foreach ($limits as $field => $limit) {
@@ -107,6 +107,38 @@ if ($fields['name'] === '' || !filter_var($fields['email'], FILTER_VALIDATE_EMAI
 }
 if (($input['consent'] ?? null) !== true) {
     respond(422, 'Please consent to being contacted about your enquiry.');
+}
+if ($fields['alternate_phone'] !== '' && (
+    !preg_match('/^\+?[0-9 ()-]{7,20}$/', $fields['alternate_phone'])
+    || !preg_match('/^[0-9]{7,15}$/', preg_replace('/[^0-9]/', '', $fields['alternate_phone']))
+)) {
+    respond(422, 'Please enter a valid alternate mobile number.');
+}
+if (!in_array($fields['form_layout'], ['', 'hero'], true)) {
+    respond(422, 'The form layout is invalid.');
+}
+if ($fields['form_layout'] === 'hero') {
+    $districtFile = dirname(__DIR__) . '/siteassets/districts.json';
+    if (!is_readable($districtFile)) {
+        error_log('GLA enquiry: district data is unavailable.');
+        respond(503, 'The enquiry options are unavailable. Please try again later.');
+    }
+    try {
+        $states = json_decode(file_get_contents($districtFile), true, 16, JSON_THROW_ON_ERROR);
+    } catch (JsonException $exception) {
+        error_log('GLA enquiry: district data is invalid.');
+        respond(503, 'The enquiry options are unavailable. Please try again later.');
+    }
+    $matched = false;
+    foreach ($states as $state) {
+        if ($state['name'] === $fields['state'] && in_array($fields['city'], $state['districts'], true)) {
+            $matched = true;
+            break;
+        }
+    }
+    if (!$matched) {
+        respond(422, 'Please choose a valid state and district.');
+    }
 }
 if (!preg_match('~^/(?!/)[a-zA-Z0-9/_.%\-]*$~', $fields['source_path'])
     || str_contains($fields['source_path'], '..')) {
@@ -195,13 +227,13 @@ try {
             } else {
                 $insert = $pdo->prepare(
                     'INSERT INTO form_submissions
-                    (submission_id, form_type, name, email, phone, program, specialization,
+                    (submission_id, form_type, name, email, phone, alternate_phone, program, specialization,
                     country, state, city, company, message, source_path, ip_hash, consent, created_at)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, UTC_TIMESTAMP())',
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, UTC_TIMESTAMP())',
                 );
                 $insert->execute([
                     $fields['submission_id'], $fields['form_type'], $fields['name'],
-                    $fields['email'], $fields['phone'], $fields['program'],
+                    $fields['email'], $fields['phone'], $fields['alternate_phone'], $fields['program'],
                     $fields['specialization'], $fields['country'], $fields['state'],
                     $fields['city'], $fields['company'], $fields['message'],
                     $fields['source_path'], $ipHash,

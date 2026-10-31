@@ -1,0 +1,32 @@
+<form class="local-enquiry-form local-hero-form" data-local-form="enquiry" action="/api/form.php" method="post" aria-label="Admissions enquiry">
+    <input name="form_layout" type="hidden" value="hero">
+    <input class="form-control" name="name" type="text" placeholder="Name" aria-label="Name" autocomplete="name" maxlength="100" required>
+    <input class="form-control" name="email" type="email" placeholder="Email Address" aria-label="Email Address" autocomplete="email" maxlength="254" required>
+    <input class="form-control" name="phone" type="tel" placeholder="Mobile Number" aria-label="Mobile Number" autocomplete="tel" maxlength="20" pattern="\+?[0-9 \(\)\-]{7,20}" required>
+    <input class="form-control" name="alternate_phone" type="tel" placeholder="Alternate Mobile No" aria-label="Alternate Mobile No" maxlength="20" pattern="\+?[0-9 \(\)\-]{7,20}">
+    <select class="form-control" name="state" aria-label="State" required>
+        <option value="">Select State</option>
+    </select>
+    <select class="form-control" name="city" aria-label="District" required disabled>
+        <option value="">Select District</option>
+    </select>
+    <select class="form-control" name="program" aria-label="Program" required>
+        <option value="">Select Program</option>
+        <option value="BBA">BBA</option>
+        <option value="BCA">BCA</option>
+        <option value="BCOM_HONS">B.Com (Hons.)</option>
+        <option value="MBA">MBA</option>
+        <option value="MCA">MCA</option>
+    </select>
+    <input name="specialization" type="hidden" value="">
+    <label class="local-consent">
+        <input name="consent" type="checkbox" required>
+        <span>I allow GLA Online to Contact Me.</span>
+    </label>
+    <label class="local-honeypot" aria-hidden="true">Leave this blank
+        <input name="website" tabindex="-1" autocomplete="off" type="text">
+    </label>
+    <p class="local-form-status" role="status" aria-live="polite" tabindex="-1"></p>
+    <button type="submit">Submit</button>
+    <noscript>Please enable JavaScript to submit this form, or contact us by phone.</noscript>
+</form>

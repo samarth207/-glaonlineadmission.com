@@ -5,14 +5,29 @@ Prepared for **https://glaonlineadmission.com/** using PHP 8.2+ and MySQL.
 ## What changed
 
 - Updated website URLs, canonical URLs, social metadata, structured data and sitemap.
+- Public pages and the local search index contain no old-domain references.
+  LMS-address FAQs were removed rather than redirected to nonexistent local
+  portals. The application FAQ describes this website's enquiry-only flow.
+  Source URLs remain in non-public download tools and provenance records so
+  the mirror can still be refreshed.
+- Website contact numbers and click-to-call links use **+91 93113 81814**.
 - Removed **Student Login navigation only**, as requested. Other student resources,
   exam/payment links, testimonials and course content remain.
 - Replaced the original registration widgets and form handlers with local
   admissions/contact forms. All Apply Now buttons, including mobile buttons,
   open a local enquiry form.
+- The compact hero form matches the original field order and styling, including
+  alternate mobile, state and dependent district selection. State/district
+  options are cached locally; they do not require the original registration API.
+- Fixed malformed homepage nesting so alumni events, corporate learners,
+  testimonials, masters, presence, social sections, FAQs and the footer remain
+  visible outside the intentionally hidden faculty section.
 - Brochure requests save an enquiry before offering the locally downloaded PDF.
   The former WhatsApp popup is not used; this implementation does not send WhatsApp
   messages, OTPs or automatic emails.
+- Admission and brochure popups use a responsive two-column desktop layout,
+  single-column mobile fields, clear focus indicators and a scrollable dialog.
+  The compact hero form and backend submission behavior remain separate.
 - Enquiries are stored in `form_submissions`, with consent, source page and time.
   No public submissions viewer or student login is provided.
 - Added server-side validation, prepared SQL statements, session/CSRF protection,
@@ -31,6 +46,9 @@ Prepared for **https://glaonlineadmission.com/** using PHP 8.2+ and MySQL.
    document root, not in an extra nested folder.
 3. Select database **`u261758575_gla1`** in phpMyAdmin and import
    [tools/schema.sql](tools/schema.sql).
+   If you already imported the previous schema, run
+   [tools/migrate-alternate-phone.sql](tools/migrate-alternate-phone.sql) **once**
+   instead to add the alternate mobile field without deleting existing enquiries.
 4. Put the privately configured `gla-database.ini` file **one directory above
    `public_html`**, never inside the public website. A configured local copy was
    created alongside this workspace, outside the website folder.
@@ -83,7 +101,7 @@ change; review the refreshed output and rerun validation before deploying it.
   of public files.
 - The resource audit checks HTML, CSS, inline backgrounds, metadata, brochure
   links, local forms, legacy-domain references and blog exclusion.
-- The PHP API passed **13 integration tests** against an isolated MariaDB 11.4
+- The PHP API is covered by **15 integration tests** against an isolated MariaDB 11.4
   instance using the MySQL protocol. Desktop, contact and mobile submissions were
   also exercised in the browser and checked in the database.
 - Production hosting, Apache/LiteSpeed rules and the live MySQL connection still
@@ -95,6 +113,8 @@ change; review the refreshed output and rerun validation before deploying it.
   `siteassets/images/svg-icons/feature_blog_icon.svg` and the structured-data
   `assets/images/logo.png`. Dead caption/decorative references were removed, and
   structured data now uses the existing site logo.
+- The mirror audit also checks that every lower homepage section is a direct
+  child of the main content and that all original hero fields are present.
 - The original convocation AJAX endpoint returned an empty response, and its
   shared event API returned no entries. The local page explicitly links to the
   captured 14th Convocation Ceremony archive instead of showing a blank listing.

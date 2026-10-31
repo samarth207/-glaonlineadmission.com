@@ -15,7 +15,7 @@ from pathlib import Path
 BASE = os.environ.get("GLA_TEST_URL", "http://127.0.0.1:8765")
 MYSQL = os.environ.get("GLA_TEST_MYSQL")
 SCHEMA = Path(__file__).with_name("schema.sql")
-if BASE != "http://127.0.0.1:8765" or not MYSQL:
+if BASE not in {"http://127.0.0.1:8765", "http://127.0.0.1:8766"} or not MYSQL:
     raise RuntimeError("Tests require the isolated local server and GLA_TEST_MYSQL client path.")
 
 
@@ -98,6 +98,25 @@ class FormTests(unittest.TestCase):
         self.assertTrue(result["saved"])
         self.assertEqual(sql("SELECT CONCAT(company,'|',country,'|',state,'|',city,'|',message) FROM form_submissions"),
                          "Example Company|India|Uttar Pradesh|Mathura|Please contact me.")
+
+    def test_hero_form_persists_alternate_and_district(self):
+        data = payload(form_layout="hero", alternate_phone="+91 9123456780",
+                       state="Uttar Pradesh", city="Mathura")
+        self.assertEqual(self.client.post(data)[0], 201)
+        self.assertEqual(sql("SELECT CONCAT(alternate_phone,'|',state,'|',city) FROM form_submissions"),
+                         "+91 9123456780|Uttar Pradesh|Mathura")
+
+    def test_invalid_hero_district_and_alternate(self):
+        for changes in [
+            {"alternate_phone": "invalid"},
+            {"alternate_phone": "1" * 16},
+            {"form_layout": "invalid"},
+            {"form_layout": "hero", "state": "Uttar Pradesh", "city": ""},
+            {"form_layout": "hero", "state": "Uttar Pradesh", "city": "Invalid District"},
+        ]:
+            with self.subTest(changes=changes):
+                self.assertEqual(self.client.post(payload(**changes))[0], 422)
+        self.assertEqual(self.count(), 0)
 
     def test_duplicate_retry_does_not_insert_twice(self):
         data = payload()
