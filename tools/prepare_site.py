@@ -12,6 +12,10 @@ import urllib.request
 from pathlib import Path
 
 from bs4 import BeautifulSoup, Comment, Tag
+if __package__:
+    from .seo import ALIASES, apply_seo
+else:
+    from seo import ALIASES, apply_seo
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -119,11 +123,22 @@ def prepare_page(page: Path) -> dict[str, str]:
     source = re.sub(r"https?://(?:www\.)?glaonline\.com(?=[/'\"#?\s<]|$)", TARGET, source)
     source = source.replace("//glaonline.com", "//glaonlineadmission.com")
     source = re.sub(
+        r"onlineadmissions@gla\.ac\.in",
+        "admissions@glaonlineadmission.com",
+        source,
+        flags=re.IGNORECASE,
+    )
+    source = re.sub(
         r"(?<!\d)(?:\+91[- ]?)?(?:9568536853|7617595602|7617595603|8439954905)(?!\d)",
         "+91 93113 81814",
         source,
     )
     soup = BeautifulSoup(source, "lxml")
+    for link in list(soup.select(
+        'header a[href^="mailto:"], nav a[href^="mailto:"], .mobile-menu a[href^="mailto:"]'
+    )):
+        container = link.parent if link.parent.name == "li" else link
+        container.decompose()
     for link in soup.select('a[href^="tel:"]'):
         link["href"] = "tel:+919311381814"
         if link.get("aria-label") and re.search(r"\d{5}", link["aria-label"]):
@@ -375,33 +390,7 @@ def prepare_page(page: Path) -> dict[str, str]:
 
     relative = page.relative_to(ROOT).as_posix()
     route = "/" if relative == "index.html" else "/" + relative.removesuffix("index.html")
-    canonical = soup.find("link", rel="canonical")
-    if canonical:
-        canonical["href"] = TARGET + route
-    else:
-        soup.head.append(soup.new_tag("link", rel="canonical", href=TARGET + route))
-    og_url = soup.find("meta", property="og:url")
-    if og_url:
-        og_url["content"] = TARGET + route
-    for meta in soup.find_all("meta"):
-        if (meta.get("property") or meta.get("name")) in {"og:image", "twitter:image"}:
-            image = meta.get("content", "")
-            parsed = urllib.parse.urlsplit(image)
-            if parsed.netloc:
-                path = parsed.path
-            else:
-                target = (page.parent / urllib.parse.unquote(parsed.path)).resolve()
-                path = "/" + target.relative_to(ROOT).as_posix()
-            meta["content"] = TARGET + path
-    for structured in soup.find_all("script", attrs={"type": "application/ld+json"}):
-        structured.string = structured.get_text().replace(
-            TARGET + "/assets/images/logo.png",
-            TARGET + "/siteassets/images/green-logo.png",
-        )
-        data = json.loads(str(structured.string))
-        if isinstance(data, dict) and isinstance(data.get("contactPoint"), dict):
-            data["contactPoint"]["telephone"] = "+919311381814"
-            structured.string = json.dumps(data, indent=2, ensure_ascii=False)
+    apply_seo(soup, page, ROOT)
     for duplicate in list(soup.select('link[href$="local-site.css"], script[src$="local-site.js"]')):
         duplicate.decompose()
     soup.head.append(soup.new_tag("link", rel="stylesheet", href="/siteassets/css/local-site.css"))
@@ -421,7 +410,8 @@ def prepare_page(page: Path) -> dict[str, str]:
 
 def prepare() -> None:
     pages = sorted(page for page in ROOT.rglob("*.html") if "_external" not in page.parts and "tools" not in page.parts)
-    index = [prepare_page(page) for page in pages]
+    prepared = [prepare_page(page) for page in pages]
+    index = [entry for entry in prepared if entry["path"] not in ALIASES]
     (ROOT / "siteassets" / "search-index.json").write_text(json.dumps(index, ensure_ascii=False), encoding="utf-8")
     urls = "".join(f"<url><loc>{TARGET}{entry['path']}</loc></url>" for entry in index)
     (ROOT / "sitemap.xml").write_text(
@@ -429,7 +419,8 @@ def prepare() -> None:
         + urls + "</urlset>", encoding="utf-8",
     )
     (ROOT / "robots.txt").write_text(
-        f"User-agent: *\nDisallow: /api/\nDisallow: /tools/\nSitemap: {TARGET}/sitemap.xml\n", encoding="utf-8",
+        f"User-agent: *\nDisallow: /api/\nDisallow: /tools/\nDisallow: /.git/\n"
+        f"Sitemap: {TARGET}/sitemap.xml\n", encoding="utf-8",
     )
     script_patches = {
         "custom.js": [

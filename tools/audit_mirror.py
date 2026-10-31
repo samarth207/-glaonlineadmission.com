@@ -48,6 +48,10 @@ def audit():
             failures.append(f"Legacy hosting/login/form reference: {page.relative_to(ROOT)}")
         if soup.find("a", href=re.compile("blog-content-excluded")):
             failures.append(f"Excluded blog link remains: {page.relative_to(ROOT)}")
+        if soup.select(
+            'header a[href^="mailto:"], nav a[href^="mailto:"], .mobile-menu a[href^="mailto:"]'
+        ):
+            failures.append(f"Navigation email link remains: {page.relative_to(ROOT)}")
         if len(soup.select("#admission-enquiry")) != 1:
             failures.append(f"Incorrect enquiry dialog count: {page.relative_to(ROOT)}")
         if page == ROOT / "index.html":

@@ -2,6 +2,217 @@
     visibility: visible;
 }
 
+.local-seo-intro {
+    padding: 48px 0;
+    background: #f3f3f3;
+    color: #363636;
+}
+
+.local-seo-intro > .container,
+.local-guidance-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
+    align-items: center;
+    gap: 40px;
+}
+
+.local-seo-eyebrow {
+    display: block;
+    margin-bottom: 12px;
+    color: #436f40;
+    font: 600 13px/1.5 var(--family-geist, sans-serif);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.local-seo-intro h1 {
+    display: block;
+    padding: 0;
+    margin: 0 0 18px;
+    max-width: 760px;
+    font: 500 clamp(26px, 3vw, 38px)/1.2 var(--family-geist, sans-serif);
+    color: #186534;
+}
+
+.local-content-title {
+    font-size: clamp(24px, 4vw, 36px);
+    line-height: 1.25;
+    margin-bottom: 16px;
+    text-wrap: balance;
+}
+
+.local-seo-intro p,
+.local-guidance-panel p {
+    max-width: 800px;
+    font: 400 15px/1.7 var(--family-geist, sans-serif);
+    color: #363636;
+    padding: 0;
+    margin: 0;
+}
+
+.local-seo-intro p.local-seo-context,
+.local-guidance-panel p.local-seo-context {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #626262;
+}
+
+.local-admissions-guidance {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 36px;
+    margin-bottom: 48px;
+}
+
+.local-guidance-panel {
+    padding: 28px 32px;
+    background: #fff;
+    border: 1px solid #dce3d9;
+    border-left: 4px solid #f9ce3a;
+    border-radius: 10px;
+    gap: 32px;
+}
+
+.local-guidance-panel h2 {
+    padding: 0;
+    margin: 0 0 12px;
+    color: #186534;
+    font: 500 24px/1.3 var(--family-geist, sans-serif);
+}
+
+.local-seo-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-content: center;
+}
+
+.local-seo-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 1px solid #cbd7c8;
+    border-radius: 6px;
+    background: transparent;
+    color: #186534;
+    font: 500 13px/1.4 var(--family-geist, sans-serif);
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.local-seo-links .local-seo-primary {
+    flex: 1 0 100%;
+    background: #186534;
+    border-color: #186534;
+    color: #fff;
+}
+
+.local-seo-links a:hover {
+    background: #eaf1e8;
+    border-color: #436f40;
+    color: #186534;
+}
+
+.local-seo-links .local-seo-primary:hover {
+    background: #124d28;
+    color: #fff;
+}
+
+.local-seo-links a:focus-visible,
+.local-breadcrumbs a:focus-visible {
+    outline: 2px solid #436f40;
+    outline-offset: 3px;
+}
+
+footer .local-partner-disclosure {
+    padding: 20px 0;
+    margin-top: 20px;
+    border-top: 1px solid #ffffff26;
+}
+
+footer .local-partner-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #f9ce3a;
+    font: 500 13px/1.5 var(--family-geist, sans-serif);
+}
+
+footer .local-partner-disclosure p {
+    max-width: 1050px;
+    padding: 0;
+    margin: 0;
+    color: #d9d4ce;
+    font: 400 12px/1.8 var(--family-geist, sans-serif);
+}
+
+.local-breadcrumbs {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    font: 400 12px/1.5 var(--family-geist, sans-serif);
+    color: #626262;
+}
+
+.local-breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.local-breadcrumbs li + li::before {
+    content: "\203A";
+    margin-right: 12px;
+    color: #7b8779;
+}
+
+.local-breadcrumbs a {
+    color: #436f40;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.local-breadcrumbs a[aria-current="page"] {
+    color: #626262;
+}
+
+@media (max-width: 767px) {
+    .local-seo-intro {
+        padding: 32px 0;
+    }
+
+    .local-seo-intro > .container,
+    .local-guidance-panel {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 22px;
+    }
+
+    .local-admissions-guidance {
+        margin-top: 24px;
+        margin-bottom: 32px;
+    }
+
+    .local-guidance-panel {
+        padding: 22px 20px;
+    }
+
+    .local-guidance-panel h2 {
+        font-size: 21px;
+    }
+
+    .local-seo-links a {
+        flex: 1 1 auto;
+    }
+
+    .local-seo-links .local-seo-primary {
+        flex-basis: 100%;
+    }
+}
+
 .local-enquiry-form {
     color: #172b20;
     text-align: left;
