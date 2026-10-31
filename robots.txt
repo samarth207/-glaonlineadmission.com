@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /api/
+Disallow: /tools/
+Sitemap: https://glaonlineadmission.com/sitemap.xml

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 88 88">
+  <g id="Group_25800" data-name="Group 25800" transform="translate(-1007 -1030.148)">
+    <circle id="Ellipse_322" data-name="Ellipse 322" cx="44" cy="44" r="44" transform="translate(1007 1030.148)" fill="#f8f8f8"/>
+    <g id="Group_25801" data-name="Group 25801" transform="translate(-1 -1)">
+      <g id="g943" transform="translate(1031.288 1084.267)">
+        <path id="path945" d="M0-168.408H26.426L40-175.02a2.532,2.532,0,0,0,1.423-2.276h0a2.532,2.532,0,0,0-3.371-2.389l-13.744,4.831H21.728a2.578,2.578,0,0,0,2.578-2.578h0a2.578,2.578,0,0,0-2.578-2.578H10.411a11.822,11.822,0,0,0-8.359,3.462L0-174.5Z" transform="translate(0 180.01)" fill="none" stroke="#212c4f" stroke-width="2"/>
+      </g>
+      <g id="g947" transform="translate(1043.139 1054.427)">
+        <path id="path949" d="M-257.2-128.6a8.86,8.86,0,0,0-9.205-8.853,8.885,8.885,0,0,0-8.514,8.875,8.843,8.843,0,0,0,3.369,6.931,4.141,4.141,0,0,1,1.584,3.246v3.033l1.117,2.32h5.578l1.117-2.32v-3.025a4.158,4.158,0,0,1,1.588-3.257A8.843,8.843,0,0,0-257.2-128.6Z" transform="translate(274.92 137.46)" fill="none" stroke="#c09742" stroke-width="2"/>
+      </g>
+      <g id="g951" transform="translate(1048.092 1073.485)">
+        <path id="path953" d="M0,0H7.813" fill="none" stroke="#c09742" stroke-width="2"/>
+      </g>
+      <g id="g955" transform="translate(1035.439 1063.309)">
+        <path id="path957" d="M-55.626,0h-3.832" transform="translate(59.459)" fill="none" stroke="#c09742" stroke-width="2"/>
+      </g>
+      <g id="g959" transform="translate(1037.658 1055.029)">
+        <path id="path961" d="M-48.174-27.813l-3.319-1.916" transform="translate(51.493 29.729)" fill="none" stroke="#c09742" stroke-width="2"/>
+      </g>
+      <g id="g963" transform="translate(1037.658 1069.672)">
+        <path id="path965" d="M-48.174,0l-3.319,1.916" transform="translate(51.493)" fill="none" stroke="#c09742" stroke-width="2"/>
+      </g>
+      <g id="g967" transform="translate(1064.725 1063.309)">
+        <path id="path969" d="M0,0H3.832" fill="none" stroke="#c09742" stroke-width="2"/>
+      </g>
+      <g id="g971" transform="translate(1063.02 1055.029)">
+        <path id="path973" d="M0-27.813l3.319-1.916" transform="translate(0 29.729)" fill="none" stroke="#c09742" stroke-width="2"/>
+      </g>
+      <g id="g975" transform="translate(1063.02 1069.672)">
+        <path id="path977" d="M0,0,3.319,1.916" fill="none" stroke="#c09742" stroke-width="2"/>
+      </g>
+      <path id="path939" d="M0-682.665H44v44H0Z" transform="translate(1030 1735.813)" fill="none"/>
+    </g>
+  </g>
+</svg>

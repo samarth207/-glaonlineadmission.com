@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 88 88">
+  <g id="Group_26176" data-name="Group 26176" transform="translate(-92 -363)">
+    <g id="Group_26170" data-name="Group 26170" transform="translate(92 456)">
+      <circle id="Ellipse_343" data-name="Ellipse 343" cx="44" cy="44" r="44" transform="translate(0 -93)" fill="#f0eeee"/>
+    </g>
+    <g id="open-enrollment" transform="translate(98.785 370)">
+      <g id="Group_26180" data-name="Group 26180" transform="translate(15.215 15)">
+        <path id="Path_24685" data-name="Path 24685" d="M260.108,115.941h6.154v13" transform="translate(-237.754 -106.727)" fill="none" stroke="#212c4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+        <path id="Path_24686" data-name="Path 24686" d="M43.723,136.727v14.039H15.215V115.941h6.158" transform="translate(-15.215 -106.727)" fill="none" stroke="#212c4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+        <g id="Group_26178" data-name="Group 26178" transform="translate(5.471 20.213)">
+          <line id="Line_1366" data-name="Line 1366" transform="translate(0 16.431)" fill="none" stroke="#212c4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+          <line id="Line_1367" data-name="Line 1367" transform="translate(0 10.954)" fill="none" stroke="#212c4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+          <line id="Line_1368" data-name="Line 1368" fill="none" stroke="#212c4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+          <line id="Line_1369" data-name="Line 1369" transform="translate(0 5.477)" fill="none" stroke="#212c4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+          <line id="Line_1370" data-name="Line 1370" x1="12.094" transform="translate(5.477)" fill="none" stroke="#212c4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+          <line id="Line_1371" data-name="Line 1371" x2="5.661" transform="translate(5.477 16.431)" fill="none" stroke="#212c4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+          <line id="Line_1372" data-name="Line 1372" x2="8.963" transform="translate(5.477 10.954)" fill="none" stroke="#212c4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+          <line id="Line_1373" data-name="Line 1373" x2="12.094" transform="translate(5.477 5.477)" fill="none" stroke="#212c4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+        </g>
+        <g id="Group_26179" data-name="Group 26179" transform="translate(6.158 0)">
+          <path id="Path_24687" data-name="Path 24687" d="M96.224,21.1V20.45A5.45,5.45,0,0,0,90.774,15h0a5.45,5.45,0,0,0-5.45,5.45V21.1h0a2.648,2.648,0,0,0-2.648,2.648v4.116h16.2V23.746A2.648,2.648,0,0,0,96.224,21.1Z" transform="translate(-82.676 -15)" fill="none" stroke="#212c4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+          <line id="Line_1374" data-name="Line 1374" transform="translate(8.098 5.441)" fill="none" stroke="#212c4f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+        </g>
+      </g>
+      <g id="Group_26181" data-name="Group 26181" transform="translate(31.222 25.618)">
+        <path id="Path_24688" data-name="Path 24688" d="M208.132,249.514l-7.4,7.4a25.846,25.846,0,0,1-10.153,6.261h0a25.846,25.846,0,0,1,6.261-10.153l7.4-7.4" transform="translate(-190.574 -235.188)" fill="none" stroke="#c09742" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+        <path id="Path_24689" data-name="Path 24689" d="M340.758,146.033l-4.654-4.655,9.088-9.088a3.291,3.291,0,0,1,4.655,0h0a3.291,3.291,0,0,1,0,4.655Z" transform="translate(-322.82 -131.326)" fill="none" stroke="#c09742" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+        <path id="Path_24690" data-name="Path 24690" d="M438.138,207.01l1.181,1.181a3.186,3.186,0,0,1,0,4.506l-4.791,4.791" transform="translate(-412.26 -200.101)" fill="none" stroke="#c09742" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+      </g>
+    </g>
+  </g>
+</svg>

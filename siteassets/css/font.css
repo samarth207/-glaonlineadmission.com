@@ -1,0 +1,138 @@
+@font-face {
+    font-family: 'Aller';
+    src: url(../font/Aller-Italic.eot);
+    src: url(../font/Aller-Italic.eot) format('embedded-opentype'),
+        url(../font/Aller-Italic.woff2) format('woff2'),
+        url(../font/Aller-Italic.woff) format('woff'),
+        url(../font/Aller-Italic.ttf) format('truetype'),
+        url(../font/Aller-Italic.svg) format('svg');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Aller';
+    src: url(../font/Aller.eot);
+    src: url(../font/Aller.eot) format('embedded-opentype'),
+        url(../font/Aller.woff2) format('woff2'),
+        url(../font/Aller.woff) format('woff'),
+        url(../font/Aller.ttf) format('truetype'),
+        url(../font/Aller.svg) format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Aller';
+    src: url(../font/Aller-BoldItalic.eot);
+    src: url(../font/Aller-BoldItalic.eot) format('embedded-opentype'),
+        url(../font/Aller-BoldItalic.woff2) format('woff2'),
+        url(../font/Aller-BoldItalic.woff) format('woff'),
+        url(../font/Aller-BoldItalic.ttf) format('truetype'),
+        url(../font/Aller-BoldItalic.svg) format('svg');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Aller';
+    src: url(../font/Aller-Light.eot);
+    src: url(../font/Aller-Light.eot) format('embedded-opentype'),
+        url(../font/Aller-Light.woff2) format('woff2'),
+        url(../font/Aller-Light.woff) format('woff'),
+        url(../font/Aller-Light.ttf) format('truetype'),
+        url(../font/Aller-Light.svg) format('svg');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Aller';
+    src: url(../font/Aller-Bold.eot);
+    src: url(../font/Aller-Bold.eot) format('embedded-opentype'),
+        url(../font/Aller-Bold.woff2) format('woff2'),
+        url(../font/Aller-Bold.woff) format('woff'),
+        url(../font/Aller-Bold.ttf) format('truetype'),
+        url(../font/Aller-Bold.svg) format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Aller';
+    src: url(../font/Aller-LightItalic.eot);
+    src: url(../font/Aller-LightItalic.eot) format('embedded-opentype'),
+        url(../font/Aller-LightItalic.woff2) format('woff2'),
+        url(../font/Aller-LightItalic.woff) format('woff'),
+        url(../font/Aller-LightItalic.ttf) format('truetype'),
+        url(../font/Aller-LightItalic.svg) format('svg');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Aller Display';
+    src: url(../font/AllerDisplay.eot);
+    src: url(../font/AllerDisplay.eot) format('embedded-opentype'),
+        url(../font/AllerDisplay.woff2) format('woff2'),
+        url(../font/AllerDisplay.woff) format('woff'),
+        url(../font/AllerDisplay.ttf) format('truetype'),
+        url(../font/AllerDisplay.svg) format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
+
+@font-face {
+    font-family: 'else_npl_stdbold';
+    src: url(../font/elsenplstd-bold-webfont.woff2) format('woff2'),
+         url(../font/elsenplstd-bold-webfont.woff) format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'else_npl_stdlight';
+    src: url(../font/elsenplstd-light-webfont.woff2) format('woff2'),
+         url(../font/elsenplstd-light-webfont.woff) format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'else_npl_stdmedium';
+    src: url(../font/elsenplstd-medium-webfont.woff2) format('woff2'),
+         url(../font/elsenplstd-medium-webfont.woff) format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'else_npl_stdsemibold';
+    src: url(../font/elsenplstd-semibold-webfont.woff2) format('woff2'),
+         url(../font/elsenplstd-semibold-webfont.woff) format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}

@@ -1,0 +1,20 @@
+DirectoryIndex index.html index.php
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^tools(?:/|$) - [F,L]
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?glaonlineadmission\.com$ [NC]
+    RewriteCond %{HTTPS} !=on [OR]
+    RewriteCond %{HTTP_HOST} ^www\.glaonlineadmission\.com$ [NC]
+    RewriteRule ^ https://glaonlineadmission.com%{REQUEST_URI} [R=301,L,NE]
+</IfModule>
+
+<FilesMatch "(^\.|\.ini$|\.sql$|\.py$|\.pyc$|\.md$|^requirements\.txt$)">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

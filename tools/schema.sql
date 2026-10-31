@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS form_submissions (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    submission_id CHAR(36) NOT NULL,
+    form_type VARCHAR(10) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(254) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    program VARCHAR(20) NOT NULL DEFAULT '',
+    specialization VARCHAR(160) NOT NULL DEFAULT '',
+    country VARCHAR(100) NOT NULL DEFAULT '',
+    state VARCHAR(100) NOT NULL DEFAULT '',
+    city VARCHAR(100) NOT NULL DEFAULT '',
+    company VARCHAR(150) NOT NULL DEFAULT '',
+    message TEXT NOT NULL,
+    source_path VARCHAR(500) NOT NULL,
+    ip_hash CHAR(64) NOT NULL,
+    consent TINYINT(1) NOT NULL,
+    created_at DATETIME NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY unique_submission (submission_id),
+    KEY recent_submissions (ip_hash, created_at),
+    KEY submission_date (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

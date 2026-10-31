@@ -1,0 +1,20 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20">
+	<title>h-pluse-icon</title>
+	<style>
+		.s0 { fill: none } 
+		.s1 { fill: none;stroke: #ffffff } 
+	</style>
+	<filter id="f0">
+		<feFlood flood-color="#638a7e" flood-opacity="1" />
+		<feBlend mode="normal" in2="SourceGraphic"/>
+		<feComposite in2="SourceAlpha" operator="in" />
+	</filter>
+	<g id="Group_25545" filter="url(#f0)">
+		<g id="Rectangle_3">
+			<path fill-rule="evenodd" class="s0" d="m0 0h20v20h-20z"/>
+			<path fill-rule="evenodd" class="s1" d="m0.5 0.5h19v19h-19z"/>
+		</g>
+		<path id="Line_5" fill-rule="evenodd" class="s1" d="m10 5.7v8.6"/>
+		<path id="Line_6" fill-rule="evenodd" class="s1" d="m14.3 10h-8.6"/>
+	</g>
+</svg>

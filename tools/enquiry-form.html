@@ -1,0 +1,35 @@
+<form class="local-enquiry-form" data-local-form="enquiry" action="/api/form.php" method="post">
+    <h3>Enquire About Admissions</h3>
+    <p>Leave your details and our admissions team will contact you.</p>
+    <label>Full name
+        <input name="name" type="text" autocomplete="name" maxlength="100" required>
+    </label>
+    <label>Email address
+        <input name="email" type="email" autocomplete="email" maxlength="254" required>
+    </label>
+    <label>Phone number
+        <input name="phone" type="tel" autocomplete="tel" maxlength="20" pattern="\+?[0-9 \(\)\-]{7,20}" required>
+    </label>
+    <label>Program
+        <select name="program" required>
+            <option value="">Choose your program</option>
+            <option value="MBA">Online MBA</option>
+            <option value="MCA">Online MCA</option>
+            <option value="BBA">Online BBA</option>
+            <option value="BCA">Online BCA</option>
+            <option value="BCOM_HONS">Online B.Com (Hons.)</option>
+        </select>
+    </label>
+    <input name="specialization" type="hidden" value="">
+    <label class="local-consent">
+        <input name="consent" type="checkbox" required>
+        <span>I agree to be contacted about my enquiry and have read the
+            <a href="/privacy-policy/index.html">Privacy Policy</a>.</span>
+    </label>
+    <label class="local-honeypot" aria-hidden="true">Leave this blank
+        <input name="website" tabindex="-1" autocomplete="off" type="text">
+    </label>
+    <p class="local-form-status" role="status" aria-live="polite" tabindex="-1"></p>
+    <button type="submit" class="btn_green">Submit Enquiry</button>
+    <noscript>Please enable JavaScript to submit this form, or contact us by phone.</noscript>
+</form>

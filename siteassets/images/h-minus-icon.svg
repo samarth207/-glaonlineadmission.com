@@ -1,0 +1,13 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20">
+	<style>
+		.s0 { fill: none } 
+		.s1 { fill: none;stroke: #ffffff } 
+	</style>
+	<g id="Group_25545">
+		<g id="Rectangle_3">
+			<path fill-rule="evenodd" class="s0" d="m0 0h20v20h-20z"/>
+			<path fill-rule="evenodd" class="s1" d="m0.5 0.5h19v19h-19z"/>
+		</g>
+		<path id="Line_6" fill-rule="evenodd" class="s1" d="m14.29 10h-8.57"/>
+	</g>
+</svg>
