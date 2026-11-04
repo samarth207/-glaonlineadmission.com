@@ -2,6 +2,22 @@
     visibility: visible;
 }
 
+[data-local-form] .local-field-error {
+    display: block;
+    margin: 4px 0 8px;
+    color: #a41919;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+[data-local-form] .local-field-error[hidden] {
+    display: none;
+}
+
+[data-local-form] [aria-invalid="true"] {
+    border-color: #a41919 !important;
+}
+
 .local-seo-intro {
     padding: 48px 0;
     background: #f3f3f3;

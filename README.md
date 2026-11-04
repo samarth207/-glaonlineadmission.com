@@ -32,6 +32,12 @@ Prepared for **https://glaonlineadmission.com/** using PHP 8.2+ and MySQL.
 - Admission and brochure popups use a responsive two-column desktop layout,
   single-column mobile fields, clear focus indicators and a scrollable dialog.
   The compact hero form and backend submission behavior remain separate.
+- Email, mobile and optional alternate-mobile fields show accessible inline
+  validation errors before submission. Email addresses need a dotted domain;
+  phones accept 7–15 digits with optional country code and common formatting,
+  but not all-identical digits or a leading zero. This checks format only, not
+  mailbox ownership, mobile service or number reachability. International local
+  trunk prefixes should be replaced with the country code.
 - Enquiries are stored in `form_submissions`, with consent, source page and time.
   No public submissions viewer or student login is provided.
 - Added server-side validation, prepared SQL statements, session/CSRF protection,

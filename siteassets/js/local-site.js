@@ -102,8 +102,64 @@
 
     document.querySelectorAll("[data-local-form]").forEach(form => {
         let submissionId;
+        const fields = Array.from(form.querySelectorAll('[name="email"], [name="phone"], [name="alternate_phone"]'));
+        function validateField(field) {
+            const value = field.value.trim();
+            let message = "";
+            if (!value && field.required) {
+                message = field.name === "email" ? "Please enter your email address." : "Please enter your mobile number.";
+            } else if (value && field.name === "email") {
+                const email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)+$/;
+                const local = value.split("@")[0];
+                if (!email.test(value) || local.length > 64 || local.startsWith(".") ||
+                    local.endsWith(".") || local.includes("..") || value.length > 254) {
+                    message = "Enter a valid email address, such as name@example.com.";
+                }
+            } else if (value) {
+                const digits = value.replace(/[^0-9]/g, "");
+                if (!/^\+?[0-9 ()-]{7,20}$/.test(value) || !/^[1-9][0-9]{6,14}$/.test(digits) ||
+                    /^([0-9])\1+$/.test(digits)) {
+                    message = "Enter 7–15 digits. For international numbers, include the country code (for example, +44 7700 900123).";
+                }
+            }
+            field.setCustomValidity(message);
+            field.setAttribute("aria-invalid", message ? "true" : "false");
+            const error = document.getElementById(`${form.id}-${field.name}-error`);
+            error.textContent = message;
+            error.hidden = !message;
+            return !message;
+        }
+        fields.forEach(field => {
+            const error = document.createElement("span");
+            error.id = `${form.id}-${field.name}-error`;
+            error.className = "local-field-error";
+            error.hidden = true;
+            error.setAttribute("aria-live", "polite");
+            field.insertAdjacentElement("afterend", error);
+            field.setAttribute("aria-describedby", [field.getAttribute("aria-describedby"), error.id].filter(Boolean).join(" "));
+            field.addEventListener("blur", () => {
+                field.value = field.value.trim();
+                validateField(field);
+            });
+            field.addEventListener("input", () => {
+                if (field.getAttribute("aria-invalid") === "true") validateField(field);
+            });
+            field.addEventListener("invalid", () => validateField(field));
+        });
+        form.addEventListener("reset", () => fields.forEach(field => {
+            field.setCustomValidity("");
+            field.removeAttribute("aria-invalid");
+            const error = document.getElementById(`${form.id}-${field.name}-error`);
+            error.textContent = "";
+            error.hidden = true;
+        }));
+        form.noValidate = true;
         form.addEventListener("submit", async event => {
             event.preventDefault();
+            fields.forEach(field => {
+                field.value = field.value.trim();
+                validateField(field);
+            });
             if (!form.reportValidity()) return;
             const button = form.querySelector('button[type="submit"]');
             if (button.disabled) return;
@@ -131,6 +187,15 @@
                 const result = await response.json();
                 if (response.status === 403) tokenPromise = undefined;
                 if (!response.ok || result.saved !== true) {
+                    const invalidField = fields.find(field => field.name === result.field);
+                    if (invalidField && response.status === 422) {
+                        invalidField.setCustomValidity(result.message);
+                        invalidField.setAttribute("aria-invalid", "true");
+                        const error = document.getElementById(`${form.id}-${invalidField.name}-error`);
+                        error.textContent = result.message;
+                        error.hidden = false;
+                        invalidField.focus();
+                    }
                     throw new Error(result.message || "Your enquiry could not be saved.");
                 }
                 status.dataset.state = "success";
@@ -158,7 +223,7 @@
                     : "Your enquiry could not be saved. Please contact us by phone.";
             } finally {
                 button.disabled = false;
-                status.focus();
+                if (!form.querySelector('[aria-invalid="true"]')) status.focus();
             }
         });
     });

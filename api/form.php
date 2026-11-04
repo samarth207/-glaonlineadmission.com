@@ -100,19 +100,31 @@ if (!preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-
 if (!in_array($fields['form_type'], ['enquiry', 'contact'], true)) {
     respond(422, 'Please select a valid form.');
 }
-if ($fields['name'] === '' || !filter_var($fields['email'], FILTER_VALIDATE_EMAIL)
-    || !preg_match('/^\+?[0-9 ()-]{7,20}$/', $fields['phone'])
-    || !preg_match('/^[0-9]{7,15}$/', preg_replace('/[^0-9]/', '', $fields['phone']))) {
-    respond(422, 'Please enter your name, a valid email, and a valid phone number.');
+if ($fields['name'] === '') {
+    respond(422, 'Please enter your name.', ['field' => 'name']);
+}
+$emailPattern = '/^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)+$/';
+$localPart = explode('@', $fields['email'])[0];
+if (!preg_match($emailPattern, $fields['email']) || strlen($fields['email']) > 254
+    || strlen($localPart) > 64 || str_starts_with($localPart, '.')
+    || str_ends_with($localPart, '.') || str_contains($localPart, '..')) {
+    respond(422, 'Enter a valid email address, such as name@example.com.', ['field' => 'email']);
+}
+foreach (['phone', 'alternate_phone'] as $phoneField) {
+    $number = $fields[$phoneField];
+    if ($phoneField === 'alternate_phone' && $number === '') {
+        continue;
+    }
+    $digits = preg_replace('/[^0-9]/', '', $number);
+    if (!preg_match('/^\+?[0-9 ()-]{7,20}$/', $number)
+        || !preg_match('/^[1-9][0-9]{6,14}$/', $digits)
+        || preg_match('/^([0-9])\1+$/', $digits)) {
+        respond(422, 'Enter 7–15 digits. For international numbers, include the country code (for example, +44 7700 900123).',
+            ['field' => $phoneField]);
+    }
 }
 if (($input['consent'] ?? null) !== true) {
     respond(422, 'Please consent to being contacted about your enquiry.');
-}
-if ($fields['alternate_phone'] !== '' && (
-    !preg_match('/^\+?[0-9 ()-]{7,20}$/', $fields['alternate_phone'])
-    || !preg_match('/^[0-9]{7,15}$/', preg_replace('/[^0-9]/', '', $fields['alternate_phone']))
-)) {
-    respond(422, 'Please enter a valid alternate mobile number.');
 }
 if (!in_array($fields['form_layout'], ['', 'hero'], true)) {
     respond(422, 'The form layout is invalid.');
